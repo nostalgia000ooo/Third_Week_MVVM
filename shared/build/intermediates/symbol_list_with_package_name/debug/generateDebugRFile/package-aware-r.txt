@@ -1,0 +1,2 @@
+com.example.third_week_mvvm.shared
+xml automotive_app_desc

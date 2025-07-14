@@ -1,0 +1,21 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+android {
+    namespace 'com.example.third_week_mvvm.shared'
+    compileSdkVersion 35
+
+    defaultConfig {
+        minSdkVersion 31
+        targetSdkVersion 35
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+dependencies {
+    implementation libs.androidx.media
+}
