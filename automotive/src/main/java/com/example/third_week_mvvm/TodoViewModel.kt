@@ -13,6 +13,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class TodoViewModel(private val todoDao: TodoDao) : ViewModel(){
+    private val _isInputVisible = MutableLiveData(false)
+    val isInputVisible: LiveData<Boolean> = _isInputVisible
+
     private val repository = TodoRepository(todoDao)
 
 //    待办列表
@@ -28,6 +31,10 @@ class TodoViewModel(private val todoDao: TodoDao) : ViewModel(){
 
     init {
         loadTodos()
+    }
+
+    fun toggleInputVisibility() {
+        _isInputVisible.value = !(_isInputVisible.value ?: false)
     }
 
     fun loadTodos() {
@@ -64,6 +71,7 @@ class TodoViewModel(private val todoDao: TodoDao) : ViewModel(){
                 todoDao.insert(newTodo)
                 Log.d("DB", "Insert completed")
                 repository.addTodo(newTodo)
+                _isInputVisible.value = false // 添加后隐藏输入框
 //                添加后重新加载
                 loadTodos()
             }catch (e: Exception){
@@ -111,5 +119,6 @@ class TodoViewModel(private val todoDao: TodoDao) : ViewModel(){
     fun clearErrorMessage(){
         _errorMessage.value = null
     }
+
 
 }

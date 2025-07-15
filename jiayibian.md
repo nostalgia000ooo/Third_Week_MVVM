@@ -20,4 +20,5 @@
 [mp4](/res/weekThird.mp4)
 - 完成上述操作后的数据库展示
 ![image](/res/database.png)
-
+- 最新页面交互视频
+![mp4](res/MVVM_Demo.mp4)

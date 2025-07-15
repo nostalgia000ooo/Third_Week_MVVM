@@ -48,6 +48,11 @@ class TodoActivity : AppCompatActivity() {
         binding.todoRecyclerView.adapter = adapter
         binding.todoRecyclerView.layoutManager = LinearLayoutManager(this)
 
+        binding.inputContainer.visibility = View.GONE
+
+        binding.showInputButton.setOnClickListener {
+            viewModel.toggleInputVisibility()
+        }
 
         // set AddButton
         binding.addButton.setOnClickListener {
@@ -63,6 +68,11 @@ class TodoActivity : AppCompatActivity() {
 
         viewModel.isLoading.observe(this) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        viewModel.isInputVisible.observe(this) { isVisible ->
+            binding.inputContainer.visibility = if (isVisible) View.VISIBLE else View.GONE
+
         }
 
         viewModel.errorMessage.observe(this) { message ->

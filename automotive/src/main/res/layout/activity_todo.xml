@@ -7,27 +7,50 @@
         android:padding="40dp"
         tools:context=".ui.TodoActivity">
 
-        <EditText
-            android:id="@+id/todoEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="输入待办事项"
-            android:inputType="text"
-            android:layout_marginBottom="8dp"/>
-
-        <Button
-            android:id="@+id/addButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="添加"
-            android:layout_marginBottom="16dp"/>
-
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:layout_gravity="center_horizontal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end">
+
+            <ImageButton
+                android:id="@+id/showInputButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/plus_icon" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/inputContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/todoEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="输入待办事项"
+                android:inputType="text"
+                android:layout_marginBottom="8dp"/>
+
+            <Button
+                android:id="@+id/addButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="添加"
+                android:layout_marginBottom="16dp"/>
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/todoRecyclerView"
@@ -36,5 +59,6 @@
             android:layout_weight="1"
             tools:itemCount="4"
             tools:listitem="@layout/item_todo"/>
+
     </LinearLayout>
 </layout>
