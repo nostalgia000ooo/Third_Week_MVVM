@@ -35,8 +35,9 @@ class TodoViewModel(private val todoDao: TodoDao) : ViewModel(){
             _isLoading.value = true
             try {
                 val result = repository.getAllTodos()
-                withContext(Dispatchers.Main) {
-                    _todos.value = result
+                // 防抖：只有数据真正变化时才更新
+                if (_todos.value != result) {
+                    _todos.postValue(result) // 使用postValue而非value
                 }
 
             } catch (e: Exception) {
@@ -50,7 +51,8 @@ class TodoViewModel(private val todoDao: TodoDao) : ViewModel(){
 
     fun addTodo(title: String){
         if(title.isBlank()){
-            _errorMessage.value = "不能为空"
+            Log.d("IsBLANK","添加的事项不能为空")
+            _errorMessage.value = "添加的事项不能为空"
             return
         }
 

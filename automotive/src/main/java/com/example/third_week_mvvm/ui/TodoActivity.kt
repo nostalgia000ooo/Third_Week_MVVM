@@ -1,6 +1,7 @@
 package com.example.third_week_mvvm.ui
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -13,6 +14,8 @@ import com.example.third_week_mvvm.Todo
 import com.example.third_week_mvvm.TodoViewModel
 import com.example.third_week_mvvm.adapter.TodoAdapter
 import com.example.third_week_mvvm.databinding.ActivityTodoBinding
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.delay
 
 class TodoActivity : AppCompatActivity() {
 
@@ -45,6 +48,7 @@ class TodoActivity : AppCompatActivity() {
         binding.todoRecyclerView.adapter = adapter
         binding.todoRecyclerView.layoutManager = LinearLayoutManager(this)
 
+
         // set AddButton
         binding.addButton.setOnClickListener {
             val title = binding.todoEditText.text.toString().trim()
@@ -63,10 +67,21 @@ class TodoActivity : AppCompatActivity() {
 
         viewModel.errorMessage.observe(this) { message ->
             message?.let {
-                Toast.makeText(this,it, Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT)
+                    .setAnchorView(binding.addButton)//upon the addButton
+                    .setAnimationMode(Snackbar.ANIMATION_MODE_FADE)
+                    .show()
+//                val toast = Toast.makeText(this,it, Toast.LENGTH_SHORT)
+//                toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 100)
+//                toast.show()
                 viewModel.clearErrorMessage()
             }
         }
+
+        binding.todoRecyclerView.post {
+            viewModel.loadTodos()
+        }
+
     }
 
     private fun onTodoClick(todo: Todo){

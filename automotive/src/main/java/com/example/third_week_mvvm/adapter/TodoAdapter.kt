@@ -1,7 +1,9 @@
 package com.example.third_week_mvvm.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.third_week_mvvm.Todo
 import com.example.third_week_mvvm.databinding.ItemTodoBinding
@@ -13,7 +15,12 @@ class TodoAdapter (
 ) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>(){
 
     class TodoViewHolder(private val binding: ItemTodoBinding): RecyclerView.ViewHolder(binding.root) {
+        private var currentIsCompleted = false
         fun bind(todo: Todo, onTodoClick: (Todo) -> Unit, onDeleteClick: (Todo) -> Unit) {
+            if (currentIsCompleted != todo.isCompleted) {
+                binding.todoCheckbox.isChecked = todo.isCompleted
+                currentIsCompleted = todo.isCompleted
+            }
             binding.todo = todo
             binding.onTodoClick = onTodoClick
             binding.onDeleteClick = onDeleteClick
@@ -33,6 +40,7 @@ class TodoAdapter (
 
     override fun getItemCount() = todos.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newTodos: List<Todo>){
         todos = newTodos
         notifyDataSetChanged()
