@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.third_week_mvvm.BR.todo
 import com.example.third_week_mvvm.Dao.TodoDao
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TodoViewModel(private val todoDao: TodoDao) : ViewModel(){
     private val repository = TodoRepository(todoDao)
@@ -21,7 +23,7 @@ class TodoViewModel(private val todoDao: TodoDao) : ViewModel(){
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _errorMessage = MutableLiveData<String>()
+    private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage
 
     init {
@@ -33,8 +35,12 @@ class TodoViewModel(private val todoDao: TodoDao) : ViewModel(){
             _isLoading.value = true
             try {
                 val result = repository.getAllTodos()
-                _todos.value = result
+                withContext(Dispatchers.Main) {
+                    _todos.value = result
+                }
+
             } catch (e: Exception) {
+                Log.e("error","出现错误${e.message}")
                 _errorMessage.value = "加载待办事项失败: ${e.message}"
             } finally {
                 _isLoading.value = false

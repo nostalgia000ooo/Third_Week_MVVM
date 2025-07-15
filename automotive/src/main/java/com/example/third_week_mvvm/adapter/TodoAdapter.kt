@@ -14,23 +14,20 @@ class TodoAdapter (
 
     class TodoViewHolder(private val binding: ItemTodoBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(todo: Todo, onTodoClick: (Todo) -> Unit, onDeleteClick: (Todo) -> Unit) {
-            binding.todoTitle.text = todo.title
-            binding.todoCheckbox.isChecked = todo.isCompleted
+            binding.todo = todo
+            binding.onTodoClick = onTodoClick
+            binding.onDeleteClick = onDeleteClick
+            binding.executePendingBindings()
 
-            // 设置整个item的点击事件
-            binding.root.setOnClickListener { onTodoClick(todo) }
-
-            // 设置删除按钮点击事件
-            binding.deleteButton.setOnClickListener { onDeleteClick(todo) }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoAdapter.TodoViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
         val binding = ItemTodoBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return TodoViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: TodoAdapter.TodoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         holder.bind(todos[position], onTodoClick, onDeleteClick)
     }
 

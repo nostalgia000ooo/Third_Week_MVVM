@@ -1,4 +1,4 @@
-package com.example.third_week_mvvm
+package com.example.third_week_mvvm.ui
 
 import android.os.Bundle
 import android.view.View
@@ -8,9 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.third_week_mvvm.DataBase.AppDatabase
+import com.example.third_week_mvvm.Todo
+import com.example.third_week_mvvm.TodoViewModel
 import com.example.third_week_mvvm.adapter.TodoAdapter
 import com.example.third_week_mvvm.databinding.ActivityTodoBinding
-
 
 class TodoActivity : AppCompatActivity() {
 
@@ -28,7 +29,7 @@ class TodoActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // 获取数据库实例
-        val database = AppDatabase.getInstance(this)
+        val database = AppDatabase.Companion.getInstance(this)
         val todoDao = database.todoDao()
 
 

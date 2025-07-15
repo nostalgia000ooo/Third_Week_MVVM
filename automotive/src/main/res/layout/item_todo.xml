@@ -17,6 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:alpha="@{todo.isCompleted ? 0.5f : 1f}"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -29,12 +30,15 @@
             <CheckBox
                 android:id="@+id/todoCheckbox"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:checked="@{todo.isCompleted}"
+                android:onCheckedChanged="@{(view, isChecked) -> onTodoClick.invoke(todo)}"/>
 
             <TextView
                 android:id="@+id/todoTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@{todo.title}"
                 android:textSize="25sp"
                 android:layout_gravity="center"
                 android:layout_weight="1" />
@@ -43,7 +47,8 @@
                 android:id="@+id/deleteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="删除" />
+                android:text="删除"
+                android:onClick="@{() -> onDeleteClick.invoke(todo)}"/>
 
         </LinearLayout>
 
