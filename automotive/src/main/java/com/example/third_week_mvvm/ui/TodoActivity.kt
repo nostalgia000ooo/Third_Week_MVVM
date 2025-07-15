@@ -3,6 +3,7 @@ package com.example.third_week_mvvm.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -73,6 +74,13 @@ class TodoActivity : AppCompatActivity() {
     }
 
     private fun onDeleteClick(todo: Todo){
-        viewModel.deleteTodo(todo)
+        AlertDialog.Builder(this)
+            .setTitle("删除")
+            .setMessage("确定要删除${todo.title}吗")
+            .setPositiveButton("确定") {_,_ ->
+                viewModel.deleteTodo(todo)
+            }
+            .setNegativeButton("取消", null)
+            .show()
     }
 }
