@@ -17,8 +17,8 @@
 6. 解决方案：使用子线程交互/database添加.allowMainThreadQueries()标签
     
 ###### ** 演示视频 **
-[mp4](/res/weekThird.mp4)
-- 完成上述操作后的数据库展示
-![image](/res/database.png)
+- ![image](/res/database.png)
 - 最新页面交互视频
-![mp4](res/MVVM_Demo.mp4)
+- <video id="video" controls="" preload="none" poster="页面交互">
+      <source id="mp4" src="res/new_demo.mp4" type="video/mp4">
+</video>
