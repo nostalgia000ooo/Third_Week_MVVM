@@ -22,7 +22,7 @@ class TodoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTodoBinding
     private lateinit var viewModel: TodoViewModel
     private var adapter = TodoAdapter(
-        emptyList(),
+//        emptyList(),
         ::onTodoClick,
         ::onDeleteClick,
     )

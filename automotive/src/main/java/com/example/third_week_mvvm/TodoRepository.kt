@@ -3,7 +3,6 @@ package com.example.third_week_mvvm
 import com.example.third_week_mvvm.Dao.TodoDao
 
 class TodoRepository (private val todoDao: TodoDao){
-    private val todos = mutableListOf<Todo>()
 
     suspend fun getAllTodos(): List<Todo> = todoDao.getAll()
 
