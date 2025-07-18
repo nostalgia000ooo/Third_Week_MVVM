@@ -19,6 +19,6 @@
 ###### ** 演示视频 **
 - ![image](/res/database.png)
 - 最新页面交互视频
-- <video id="video" controls="" preload="none" poster="页面交互">
+<video id="video" controls="" preload="none" poster="页面交互">
       <source id="mp4" src="res/new_demo.mp4" type="video/mp4">
 </video>
