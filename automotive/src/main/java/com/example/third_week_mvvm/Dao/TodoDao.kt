@@ -10,7 +10,7 @@ import com.example.third_week_mvvm.Todo
 
 @Dao
 interface TodoDao {
-    @Query("SELECT * FROM todos")
+    @Query("SELECT * FROM todos ORDER BY isCompleted ASC, title ASC")
     fun getAll(): List<Todo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
