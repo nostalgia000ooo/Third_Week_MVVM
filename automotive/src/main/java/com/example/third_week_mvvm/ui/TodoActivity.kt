@@ -112,7 +112,7 @@ class TodoActivity : AppCompatActivity() {
 
     private fun setupGestureDetector() {
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
-            private val SWIPE_THRESHOLD = 80  // 降低阈值，使手势更敏感
+            private val SWIPE_THRESHOLD = 70  // 降低阈值，使手势更敏感
             private val SWIPE_VELOCITY_THRESHOLD = 80
 
             override fun onFling(
@@ -149,10 +149,10 @@ class TodoActivity : AppCompatActivity() {
 
     private fun performHapticFeedback() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE))
+            vibrator.vibrate(VibrationEffect.createOneShot(30, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {
             @Suppress("DEPRECATION")
-            vibrator.vibrate(50)
+            vibrator.vibrate(30)
         }
     }
 

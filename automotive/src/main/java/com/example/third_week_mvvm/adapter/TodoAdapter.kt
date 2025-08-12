@@ -1,6 +1,5 @@
 package com.example.third_week_mvvm.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -31,17 +30,25 @@ class TodoAdapter (
     ) = holder.bind(getItem(position), onTodoClick, onDeleteClick)
 
     class TodoViewHolder(private val binding: ItemTodoBinding): RecyclerView.ViewHolder(binding.root) {
-        private var currentIsCompleted = false
+        private var isBinding = false
+        private var lastClickTime = 0L
+        private val clickThreshold = 500L // 500ms内的重复点击将被忽略
+        
         fun bind(todo: Todo, onTodoClick: (Todo) -> Unit, onDeleteClick: (Todo) -> Unit) {
-            if (currentIsCompleted != todo.isCompleted) {
-                binding.todoCheckbox.isChecked = todo.isCompleted
-                currentIsCompleted = todo.isCompleted
-            }
+            isBinding = true
             binding.todo = todo
-            binding.onTodoClick = onTodoClick
+            
+            // 创建一个包装的点击事件，添加防重复点击和绑定状态检查
+            binding.onTodoClick = { todoItem ->
+                val currentTime = System.currentTimeMillis()
+                if (!isBinding && (currentTime - lastClickTime) > clickThreshold) {
+                    lastClickTime = currentTime
+                    onTodoClick(todoItem)
+                }
+            }
             binding.onDeleteClick = onDeleteClick
             binding.executePendingBindings()
-
+            isBinding = false
         }
     }
 

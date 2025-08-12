@@ -1,16 +1,14 @@
 package com.example.third_week_mvvm
 
 import android.util.Log
-import androidx.appcompat.widget.DialogTitle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.third_week_mvvm.BR.todo
 import com.example.third_week_mvvm.Dao.TodoDao
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 
 class TodoViewModel(private val todoDao: TodoDao) : ViewModel(){
     private val _isInputVisible = MutableLiveData(false)
@@ -54,9 +52,12 @@ class TodoViewModel(private val todoDao: TodoDao) : ViewModel(){
             _isLoading.value = true
             try {
                 val result = repository.getAllTodos()
+                // 排序：未完成的在前，已完成的在后，同状态按标题排序
+                val sortedResult = result.sortedWith(compareBy<Todo> { it.isCompleted }.thenBy { it.title })
+                
                 // 防抖：只有数据真正变化时才更新
-                if (_todos.value != result) {
-                    _todos.postValue(result) // 使用postValue而非value
+                if (_todos.value != sortedResult) {
+                    _todos.postValue(sortedResult) // 使用postValue而非value
                 }
 
             } catch (e: Exception) {
@@ -96,19 +97,48 @@ class TodoViewModel(private val todoDao: TodoDao) : ViewModel(){
 
     }
 
+    private var updateJob: Job? = null
+    private val updateDebounceTime = 100L // 减少防抖时间到100ms
+    private val updatingTodoIds = mutableSetOf<String>() // 跟踪正在更新的待办事项 ID
+    
     fun updateTodosStatus(todo: Todo){
-        viewModelScope.launch {
-            _isLoading.value = true
+        // 如果该代办正在更新中，直接返回
+        if (updatingTodoIds.contains(todo.id)) {
+            Log.d("updateTodo", "Todo ${todo.id} is already updating, ignoring")
+            return
+        }
+        
+        // 取消之前的更新任务
+        updateJob?.cancel()
+        
+        updateJob = viewModelScope.launch {
+            updatingTodoIds.add(todo.id)
+            
             try {
+                // 防抖延迟
+                delay(updateDebounceTime)
+                
+                _isLoading.value = true
                 val updatedTodo = todo.copy(isCompleted = !todo.isCompleted)
                 repository.updateTodo(updatedTodo)
                 Log.d("updateTodo","updateTodo Successful${updatedTodo}")
-//                之后重新加载
-                loadTodos()
+                
+                // 更新本地数据并重新排序
+                val currentTodos = _todos.value?.toMutableList() ?: mutableListOf()
+                val index = currentTodos.indexOfFirst { it.id == todo.id }
+                if (index != -1) {
+                    currentTodos[index] = updatedTodo
+                    // 重新排序：未完成的在前，已完成的在后
+                    val sortedTodos = currentTodos.sortedWith(compareBy<Todo> { it.isCompleted }.thenBy { it.title })
+                    _todos.value = sortedTodos
+                }
             }catch (e: Exception){
                 _errorMessage.value = "更新失败：${e.message}"
+                // 发生错误时重新加载以确保数据一致性
+                loadTodos()
             }finally {
                 _isLoading.value = false
+                updatingTodoIds.remove(todo.id)
             }
         }
     }
