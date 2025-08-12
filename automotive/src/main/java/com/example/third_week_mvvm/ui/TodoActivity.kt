@@ -130,7 +130,7 @@ class TodoActivity : AppCompatActivity() {
                 if (abs(diffY) > abs(diffX)) {
                     if (abs(diffY) > SWIPE_THRESHOLD && abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
                         // 添加触觉反馈
-//                        performHapticFeedback()
+                        // performHapticFeedback()
 
                         if (diffY < 0) {
                             // 向上滑动 - 隐藏添加组件
