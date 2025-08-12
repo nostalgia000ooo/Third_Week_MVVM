@@ -65,6 +65,9 @@ dependencies {
 
     // RecyclerView for data display
     implementation ("androidx.recyclerview:recyclerview:1.3.1")
+    
+    // CardView for modern UI
+    implementation ("androidx.cardview:cardview:1.0.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
