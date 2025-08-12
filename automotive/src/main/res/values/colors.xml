@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 基础颜色 -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- 主题颜色 - 现代蓝色调 -->
+    <color name="primary_blue">#FF2196F3</color>
+    <color name="primary_blue_dark">#FF1976D2</color>
+    <color name="primary_blue_light">#FFBBDEFB</color>
+    <color name="accent_orange">#FFFF9800</color>
+    
+    <!-- 状态颜色 -->
+    <color name="success_green">#FF4CAF50</color>
+    <color name="error_red">#FFF44336</color>
+    <color name="warning_yellow">#FFFFC107</color>
+    
+    <!-- 背景颜色 -->
+    <color name="background_light">#FFF8F9FA</color>
+    <color name="surface_light">#FFFFFFFF</color>
+    <color name="card_background">#FFFFFFFF</color>
+    <color name="input_background">#FFF3F8FF</color>
+    
+    <!-- 文本颜色 -->
+    <color name="text_primary">#DE000000</color>
+    <color name="text_secondary">#99000000</color>
+    <color name="text_disabled">#61000000</color>
+    <color name="text_hint">#B0BEC5</color>
+    
+    <!-- 边框颜色 -->
+    <color name="border_light">#FFE1E8ED</color>
+    <color name="border_primary">#FFBBDEFB</color>
+    
+    <!-- 阴影颜色 -->
+    <color name="shadow_light">#1A000000</color>
+</resources>
