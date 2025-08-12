@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -14,24 +15,31 @@
             type="kotlin.jvm.functions.Function1&lt;com.example.third_week_mvvm.Todo, kotlin.Unit&gt;" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="4dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="3dp"
+        app:cardBackgroundColor="@color/card_background"
+        android:alpha="@{todo.isCompleted ? 0.6f : 1f}">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="16dp"
-            android:alpha="@{todo.isCompleted ? 0.5f : 1f}"
-            tools:ignore="MissingConstraints">
+            android:gravity="center_vertical"
+            android:minHeight="64dp">
 
             <CheckBox
                 android:id="@+id/todoCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="@{todo.isCompleted}"
+                android:buttonTint="@color/primary_blue"
+                android:layout_marginEnd="12dp"
                 android:onCheckedChanged="@{(view, isChecked) -> onTodoClick.invoke(todo)}"/>
 
             <TextView
@@ -39,19 +47,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{todo.title}"
-                android:textSize="25sp"
-                android:layout_gravity="center"
-                android:layout_weight="1" />
+                android:textSize="18sp"
+                android:textColor="@{todo.isCompleted ? @color/text_secondary : @color/text_primary}"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="2dp" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/deleteButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="删除"
-                android:drawablePadding="4dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_delete"
+                android:background="@drawable/delete_button_background"
+                android:layout_marginStart="8dp"
+                android:contentDescription="删除"
                 android:onClick="@{() -> onDeleteClick.invoke(todo)}"/>
 
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

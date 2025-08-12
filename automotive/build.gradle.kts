@@ -43,6 +43,12 @@ android {
 }
 
 dependencies {
+    // 测试依赖
+    testImplementation("io.mockk:mockk:1.13.7")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+
+
 
     // database Room
     implementation ("androidx.room:room-runtime:2.5.2")
@@ -59,6 +65,9 @@ dependencies {
 
     // RecyclerView for data display
     implementation ("androidx.recyclerview:recyclerview:1.3.1")
+    
+    // CardView for modern UI
+    implementation ("androidx.cardview:cardview:1.0.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -69,4 +78,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(kotlin("test"))
 }

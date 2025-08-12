@@ -37,6 +37,18 @@ class TodoViewModel(private val todoDao: TodoDao) : ViewModel(){
         _isInputVisible.value = !(_isInputVisible.value ?: false)
     }
 
+    fun showInputWithGesture() {
+        if (_isInputVisible.value != true) {
+            _isInputVisible.value = true
+        }
+    }
+
+    fun hideInputWithGesture() {
+        if (_isInputVisible.value == true) {
+            _isInputVisible.value = false
+        }
+    }
+
     fun loadTodos() {
         viewModelScope.launch {
             _isLoading.value = true

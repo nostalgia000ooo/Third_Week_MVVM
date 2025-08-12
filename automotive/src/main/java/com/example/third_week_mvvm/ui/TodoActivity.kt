@@ -1,11 +1,20 @@
 package com.example.third_week_mvvm.ui
 
+import android.animation.Animator
+import android.animation.ObjectAnimator
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.view.GestureDetector
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,11 +25,14 @@ import com.example.third_week_mvvm.adapter.TodoAdapter
 import com.example.third_week_mvvm.databinding.ActivityTodoBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
+import kotlin.math.abs
 
 class TodoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTodoBinding
     private lateinit var viewModel: TodoViewModel
+    private lateinit var gestureDetector: GestureDetector
+    private lateinit var vibrator: Vibrator
     private var adapter = TodoAdapter(
 //        emptyList(),
         ::onTodoClick,
@@ -50,6 +62,12 @@ class TodoActivity : AppCompatActivity() {
 
         binding.inputContainer.visibility = View.GONE
 
+        // 初始化振动器
+        vibrator = ContextCompat.getSystemService(this, Vibrator::class.java)!!
+        
+        // 初始化手势检测器
+        setupGestureDetector()
+
         binding.showInputButton.setOnClickListener {
             viewModel.toggleInputVisibility()
         }
@@ -71,8 +89,7 @@ class TodoActivity : AppCompatActivity() {
         }
 
         viewModel.isInputVisible.observe(this) { isVisible ->
-            binding.inputContainer.visibility = if (isVisible) View.VISIBLE else View.GONE
-
+            animateInputContainer(isVisible)
         }
 
         viewModel.errorMessage.observe(this) { message ->
@@ -92,6 +109,133 @@ class TodoActivity : AppCompatActivity() {
             viewModel.loadTodos()
         }
 
+    }
+
+    private fun setupGestureDetector() {
+        gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
+            private val SWIPE_THRESHOLD = 80  // 降低阈值，使手势更敏感
+            private val SWIPE_VELOCITY_THRESHOLD = 80
+
+            override fun onFling(
+                e1: MotionEvent?,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                if (e1 == null) return false
+                
+                val diffY = e2.y - e1.y
+                val diffX = e2.x - e1.x
+                
+                // 确保是垂直滑动而不是水平滑动
+                if (abs(diffY) > abs(diffX)) {
+                    if (abs(diffY) > SWIPE_THRESHOLD && abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                        // 添加触觉反馈
+                        performHapticFeedback()
+                        
+                        if (diffY < 0) {
+                            // 向上滑动 - 显示添加组件
+                            viewModel.hideInputWithGesture()
+                        } else {
+                            // 向下滑动 - 隐藏添加组件
+                            viewModel.showInputWithGesture()
+                        }
+                        return true
+                    }
+                }
+                return false
+            }
+        })
+    }
+
+    private fun performHapticFeedback() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            @Suppress("DEPRECATION")
+            vibrator.vibrate(50)
+        }
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event)
+    }
+
+    // 为RecyclerView也添加手势支持
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        gestureDetector.onTouchEvent(ev)
+        return super.dispatchTouchEvent(ev)
+    }
+
+    private fun animateInputContainer(isVisible: Boolean) {
+        if (isVisible) {
+            // 显示动画 - 从上方滑入并淡入
+            binding.inputContainer.visibility = View.VISIBLE
+            binding.inputContainer.alpha = 0f
+            binding.inputContainer.translationY = -100f
+            binding.inputContainer.scaleX = 0.9f
+            binding.inputContainer.scaleY = 0.9f
+            
+            // 淡入动画
+            ObjectAnimator.ofFloat(binding.inputContainer, "alpha", 0f, 1f).apply {
+                duration = 350
+                interpolator = AccelerateDecelerateInterpolator()
+                start()
+            }
+            
+            // 滑入动画
+            ObjectAnimator.ofFloat(binding.inputContainer, "translationY", -100f, 0f).apply {
+                duration = 350
+                interpolator = AccelerateDecelerateInterpolator()
+                start()
+            }
+            
+            // 缩放动画
+            ObjectAnimator.ofFloat(binding.inputContainer, "scaleX", 0.9f, 1f).apply {
+                duration = 350
+                interpolator = AccelerateDecelerateInterpolator()
+                start()
+            }
+            
+            ObjectAnimator.ofFloat(binding.inputContainer, "scaleY", 0.9f, 1f).apply {
+                duration = 350
+                interpolator = AccelerateDecelerateInterpolator()
+                start()
+            }
+        } else {
+            // 隐藏动画 - 向上滑出并淡出
+            ObjectAnimator.ofFloat(binding.inputContainer, "alpha", 1f, 0f).apply {
+                duration = 250
+                interpolator = AccelerateDecelerateInterpolator()
+                start()
+            }
+            
+            ObjectAnimator.ofFloat(binding.inputContainer, "translationY", 0f, -100f).apply {
+                duration = 250
+                interpolator = AccelerateDecelerateInterpolator()
+                start()
+            }
+            
+            ObjectAnimator.ofFloat(binding.inputContainer, "scaleX", 1f, 0.9f).apply {
+                duration = 250
+                interpolator = AccelerateDecelerateInterpolator()
+                start()
+            }
+            
+            ObjectAnimator.ofFloat(binding.inputContainer, "scaleY", 1f, 0.9f).apply {
+                duration = 250
+                interpolator = AccelerateDecelerateInterpolator()
+                addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(animation: Animator) {}
+                    override fun onAnimationEnd(animation: Animator) {
+                        binding.inputContainer.visibility = View.GONE
+                    }
+                    override fun onAnimationCancel(animation: Animator) {}
+                    override fun onAnimationRepeat(animation: Animator) {}
+                })
+                start()
+            }
+        }
     }
 
     private fun onTodoClick(todo: Todo){
