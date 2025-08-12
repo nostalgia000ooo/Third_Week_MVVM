@@ -34,7 +34,6 @@ class TodoActivity : AppCompatActivity() {
     private lateinit var gestureDetector: GestureDetector
     private lateinit var vibrator: Vibrator
     private var adapter = TodoAdapter(
-//        emptyList(),
         ::onTodoClick,
         ::onDeleteClick,
     )
@@ -113,7 +112,7 @@ class TodoActivity : AppCompatActivity() {
 
     private fun setupGestureDetector() {
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
-            private val SWIPE_THRESHOLD = 80  // 降低阈值，使手势更敏感
+            private val SWIPE_THRESHOLD = 70  // 降低阈值，使手势更敏感
             private val SWIPE_VELOCITY_THRESHOLD = 80
 
             override fun onFling(
@@ -131,13 +130,13 @@ class TodoActivity : AppCompatActivity() {
                 if (abs(diffY) > abs(diffX)) {
                     if (abs(diffY) > SWIPE_THRESHOLD && abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
                         // 添加触觉反馈
-                        performHapticFeedback()
-                        
+//                        performHapticFeedback()
+
                         if (diffY < 0) {
-                            // 向上滑动 - 显示添加组件
+                            // 向上滑动 - 隐藏添加组件
                             viewModel.hideInputWithGesture()
                         } else {
-                            // 向下滑动 - 隐藏添加组件
+                            // 向下滑动 - 显示添加组件
                             viewModel.showInputWithGesture()
                         }
                         return true
@@ -150,10 +149,10 @@ class TodoActivity : AppCompatActivity() {
 
     private fun performHapticFeedback() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE))
+            vibrator.vibrate(VibrationEffect.createOneShot(30, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {
             @Suppress("DEPRECATION")
-            vibrator.vibrate(50)
+            vibrator.vibrate(30)
         }
     }
 
@@ -173,8 +172,8 @@ class TodoActivity : AppCompatActivity() {
             binding.inputContainer.visibility = View.VISIBLE
             binding.inputContainer.alpha = 0f
             binding.inputContainer.translationY = -100f
-            binding.inputContainer.scaleX = 0.9f
-            binding.inputContainer.scaleY = 0.9f
+            binding.inputContainer.scaleX = 0.7f
+            binding.inputContainer.scaleY = 0.7f
             
             // 淡入动画
             ObjectAnimator.ofFloat(binding.inputContainer, "alpha", 0f, 1f).apply {
@@ -191,13 +190,13 @@ class TodoActivity : AppCompatActivity() {
             }
             
             // 缩放动画
-            ObjectAnimator.ofFloat(binding.inputContainer, "scaleX", 0.9f, 1f).apply {
+            ObjectAnimator.ofFloat(binding.inputContainer, "scaleX", 0.7f, 1f).apply {
                 duration = 350
                 interpolator = AccelerateDecelerateInterpolator()
                 start()
             }
             
-            ObjectAnimator.ofFloat(binding.inputContainer, "scaleY", 0.9f, 1f).apply {
+            ObjectAnimator.ofFloat(binding.inputContainer, "scaleY", 0.7f, 1f).apply {
                 duration = 350
                 interpolator = AccelerateDecelerateInterpolator()
                 start()

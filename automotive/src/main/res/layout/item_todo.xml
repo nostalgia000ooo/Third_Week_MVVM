@@ -40,7 +40,9 @@
                 android:checked="@{todo.isCompleted}"
                 android:buttonTint="@color/primary_blue"
                 android:layout_marginEnd="12dp"
-                android:onCheckedChanged="@{(view, isChecked) -> onTodoClick.invoke(todo)}"/>
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{() -> onTodoClick.invoke(todo)}"/>
 
             <TextView
                 android:id="@+id/todoTitle"

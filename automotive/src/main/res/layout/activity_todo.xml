@@ -28,20 +28,20 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="我的待办事项"
+                android:text="@string/Mytodos_CN"
                 android:textSize="28sp"
                 android:textColor="@color/text_primary"
                 android:fontFamily="sans-serif-medium" />
 
             <ImageButton
                 android:id="@+id/showInputButton"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:src="@drawable/ic_add"
                 android:background="@drawable/fab_background"
                 android:elevation="6dp"
                 android:layout_marginStart="16dp"
-                android:contentDescription="添加待办事项" />
+                android:contentDescription="@string/add_CN" />
 
         </LinearLayout>
 
@@ -66,7 +66,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="添加新的待办事项"
+                    android:text="@string/addNew_CN"
                     android:textSize="18sp"
                     android:textColor="@color/text_primary"
                     android:fontFamily="sans-serif-medium"
@@ -77,7 +77,8 @@
                     style="@style/CustomEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="输入待办事项内容..."
+                    android:autofillHints="todo"
+                    android:hint="@string/language_CN_pleaseInput"
                     android:inputType="text"
                     android:layout_marginBottom="16dp"
                     android:minHeight="48dp" />
@@ -87,7 +88,7 @@
                     style="@style/PrimaryButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="添加待办事项"
+                    android:text="@string/addTodo_CN"
                     android:minHeight="48dp" />
 
             </LinearLayout>
@@ -118,7 +119,7 @@
                 android:id="@+id/gestureHintText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="提示: 向上滑动显示添加框，向下滑动隐藏"
+                android:text="@string/TIPS_CN"
                 android:textSize="14sp"
                 android:textColor="@color/primary_blue_dark"
                 android:gravity="center"
