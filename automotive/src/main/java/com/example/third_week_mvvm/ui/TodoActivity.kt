@@ -172,8 +172,8 @@ class TodoActivity : AppCompatActivity() {
             binding.inputContainer.visibility = View.VISIBLE
             binding.inputContainer.alpha = 0f
             binding.inputContainer.translationY = -100f
-            binding.inputContainer.scaleX = 0.9f
-            binding.inputContainer.scaleY = 0.9f
+            binding.inputContainer.scaleX = 0.7f
+            binding.inputContainer.scaleY = 0.7f
             
             // 淡入动画
             ObjectAnimator.ofFloat(binding.inputContainer, "alpha", 0f, 1f).apply {
@@ -190,13 +190,13 @@ class TodoActivity : AppCompatActivity() {
             }
             
             // 缩放动画
-            ObjectAnimator.ofFloat(binding.inputContainer, "scaleX", 0.9f, 1f).apply {
+            ObjectAnimator.ofFloat(binding.inputContainer, "scaleX", 0.7f, 1f).apply {
                 duration = 350
                 interpolator = AccelerateDecelerateInterpolator()
                 start()
             }
             
-            ObjectAnimator.ofFloat(binding.inputContainer, "scaleY", 0.9f, 1f).apply {
+            ObjectAnimator.ofFloat(binding.inputContainer, "scaleY", 0.7f, 1f).apply {
                 duration = 350
                 interpolator = AccelerateDecelerateInterpolator()
                 start()
