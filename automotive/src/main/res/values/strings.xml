@@ -7,4 +7,10 @@
     <string name="delete_todo_message">确定要删除%1$s吗？</string>
     <string name="confirm_button_text">确定</string>
     <string name="cancel_button_text">取消</string>
+    <string name="language_CN_pleaseInput">输入待办事项内容...</string>
+    <string name="addTodo_CN">添加待办事项</string>
+    <string name="TIPS_CN">提示: 向上滑动显示添加框，向下滑动隐藏</string>
+    <string name="addNew_CN">添加新的待办事项</string>
+    <string name="add_CN">添加待办事项</string>
+    <string name="Mytodos_CN">我的待办事项</string>
 </resources>
