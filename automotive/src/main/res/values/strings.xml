@@ -1,6 +1,6 @@
 <!-- res/values/strings.xml -->
 <resources>
-    <string name="app_name">Third Week MVVM</string>
+    <string name="app_name">待办事项</string>
     <string name="add_todo_empty_error">添加的事项不能为空</string>
     <string name="operation_fail_prefix">操作失败：</string>
     <string name="delete_todo_title">删除</string>
